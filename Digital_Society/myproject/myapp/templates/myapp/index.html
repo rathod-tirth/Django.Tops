@@ -40,7 +40,7 @@
             <li>
                 <div class="navbar-header">
                     <a href="javascript:void(0);" class="bars"></a>
-                    <a class="navbar-brand" href="index.html"><img src="{% static 'myapp\assets\images\logo.svg' %}" width="30"
+                    <a href={% url "home" %} class="navbar-brand" href="index.html"><img src="{% static 'myapp\assets\images\logo.svg' %}" width="30"
                             alt="Digi Soc."><span class="m-l-10">Digital Society</span></a>
                 </div>
             </li>
@@ -237,7 +237,8 @@
     <aside id="leftsidebar" class="sidebar">
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#dashboard"><i
-                        class="zmdi zmdi-home m-r-5"></i>Digital Society</a></li>
+                        class="zmdi zmdi-home m-r-5"></i>App</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#user">{{user.role}}</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane stretchRight active" id="dashboard">
@@ -245,8 +246,8 @@
                     <ul class="list">
                         <li>
                             <div class="user-info">
-                                <div class="image"><a href="{% url 'profile' %}"><img
-                                            src="{% static 'myapp\assets\images\profile_av.jpg' %}" alt="User"></a></div>
+                                <div class="image"><a href="{% url 'profile' %}">
+                                    <img src="{{chairman.pic.url}}" alt="User" /></a></div>
                                 <div class="detail">
                                     <h4>{{chairman.firstname}}</h4>
                                     <small>{{user.role}}</small>
@@ -255,10 +256,10 @@
                         </li>
                         <li class="header">MAIN</li>
 
-                        <li class="active open"><a href="index.html"><i
+                        <li class="active open"><a href="{% url "home" %}"><i
                                     class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
-                        <li class=""><a href="..\appointment\book-appointment.html"><i
-                                    class="zmdi zmdi-calendar-check"></i><span>Appointment</span></a></li>
+                        <li class=""><a href="{% url "profile" %}"><i
+                                    class="zmdi zmdi-calendar-check"></i><span>Profile</span></a></li>
                         <li class="">
                             <a href="javascript:void(0);" class="menu-toggle"><i
                                     class="zmdi zmdi-account-add"></i><span>Doctors</span></a>
@@ -420,10 +421,10 @@
                         <li>
                             <div class="user-info m-b-20 p-b-15">
                                 <div class="image"><a href="..\doctor\profile.html"><img
-                                            src="{% static 'myapp\assets\images\profile_av.jpg' %}" alt="User"></a></div>
+                                            src="{{chairman.pic.url}}" alt="User"></a></div>
                                 <div class="detail">
-                                    <h4>Dr. Charlotte</h4>
-                                    <small>Neurologist</small>
+                                    <h4>{{chairman.firstname}}</h4>
+                                    <small>{{user.role}}</small>
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
@@ -448,51 +449,14 @@
                         </li>
                         <li>
                             <small class="text-muted">Location: </small>
-                            <p>795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
+                            <p>{{chairman.blockno}} | {{chairman.houseno}}</p>
                             <hr>
                             <small class="text-muted">Email address: </small>
-                            <p>Charlotte@example.com</p>
+                            <p>{{user.email}}</p>
                             <hr>
                             <small class="text-muted">Phone: </small>
-                            <p>+ 202-555-0191</p>
+                            <p>{{chairman.contact}}</p>
                             <hr>
-                            <small class="text-muted">Website: </small>
-                            <p>http://dr.charlotte.com/ </p>
-                            <hr>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <div>Colorectal Surgery</div>
-                                    <div class="progress m-b-20">
-                                        <div class="progress-bar l-blue " role="progressbar" aria-valuenow="89"
-                                            aria-valuemin="0" aria-valuemax="100" style="width: 89%"> <span
-                                                class="sr-only">62% Complete</span></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div>Endocrinology</div>
-                                    <div class="progress m-b-20">
-                                        <div class="progress-bar l-green " role="progressbar" aria-valuenow="56"
-                                            aria-valuemin="0" aria-valuemax="100" style="width: 56%"> <span
-                                                class="sr-only">87% Complete</span></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div>Dermatology</div>
-                                    <div class="progress m-b-20">
-                                        <div class="progress-bar l-amber" role="progressbar" aria-valuenow="78"
-                                            aria-valuemin="0" aria-valuemax="100" style="width: 78%"> <span
-                                                class="sr-only">32% Complete</span></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div>Neurophysiology</div>
-                                    <div class="progress m-b-20">
-                                        <div class="progress-bar l-blush" role="progressbar" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100" style="width: 43%"> <span
-                                                class="sr-only">56% Complete</span></div>
-                                    </div>
-                                </li>
-                            </ul>
                         </li>
                     </ul>
                 </div>
