@@ -45,7 +45,14 @@ def login(request):
          
          if(user_email != None and user_password != None):
             # if the user input is correct get the user data as an object
-            context=data(user_email,user_password)
+            user_data=User.objects.get(email=user_email, password=user_password)
+            chairman_data=Chairman.objects.get(userid=user_data.id)
+            print("==============>>>",user_data,chairman_data)
+            context={
+                     "user":user_data,
+                     "chairman":chairman_data,
+                  }
+            
             request.session['email']=context['user'].email
             
             print("========== render index")
@@ -67,14 +74,11 @@ def logout(request):
 # function for fetching user data
 def data(f_email,f_password=None):
    user_data=User.objects.get(email=f_email)
-   
    if f_password:
       user_data=User.objects.get(email=f_email, password=f_password)
       
    chairman_data=Chairman.objects.get(userid=user_data.id)
-   
    print("==============>>>",user_data,chairman_data)
-   
    context={
             "user":user_data,
             "chairman":chairman_data,
