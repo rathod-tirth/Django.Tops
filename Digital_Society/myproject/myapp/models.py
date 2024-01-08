@@ -19,6 +19,7 @@ class Chairman(models.Model):
    contact = models.CharField(max_length=11)
    blockno = models.CharField(max_length=3)
    houseno = models.CharField(max_length=4)
+   pic=models.FileField(upload_to='media/upload', default='default.png')
 
    def __str__(self):
        return f"{self.firstname} | {self.blockno}/{self.houseno}"
