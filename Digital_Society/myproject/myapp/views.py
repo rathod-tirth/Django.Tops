@@ -81,3 +81,9 @@ def data(f_email,f_password=None):
          }
    
    return context
+
+def profile(request):
+   context=None
+   if 'email' in request.session:
+      context=data(request.session['email'])
+   return render(request, 'myapp/profile.html', context)
