@@ -225,7 +225,7 @@
                 </div>
             </li>
             <li class="float-right">
-                <a href="..\authentication\login.html" class="mega-menu" data-close="true"><i
+                <a href="{% url "logout" %}" class="mega-menu" data-close="true"><i
                         class="zmdi zmdi-power"></i></a>
                 <a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i
                         class="zmdi zmdi-settings zmdi-hc-spin"></i></a>
@@ -247,8 +247,8 @@
                                 <div class="image"><a href="..\doctor\profile.html"><img
                                             src="..\assets\images\profile_av.jpg" alt="User"></a></div>
                                 <div class="detail">
-                                    <h4>Dr. Charlotte</h4>
-                                    <small>Neurologist</small>
+                                    <h4>{{chairman.firstname}}</h4>
+                                    <small>{{user.role}}</small>
                                 </div>
                             </div>
                         </li>
