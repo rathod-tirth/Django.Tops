@@ -4,6 +4,10 @@ from .models import *
 # Create your views here.
 
 def home(request):
+   if 'email' in request.session:
+      context=data(request.session['email'])   
+      return render(request, 'myapp/index.html',context)
+   
    return render(request, "myapp/login.html")
 
 # def login(request):
@@ -28,25 +32,24 @@ def home(request):
 
 def login(request):
    if 'email' in request.session:
-      return render(request, 'myapp/index.html')
+      context=data(request.session['email'])   
+      return render(request, 'myapp/index.html',context)
    else:
       msg=False
       try:
-         # user input
+         # getting user input from html
          print("=========>>> Login")
          user_email=request.POST.get('email')
          user_password=request.POST.get('password')
          print("=========>>>",user_email,user_password)
          
          if(user_email != None and user_password != None):
-            # user object/row
-            user_data=User.objects.get(email=user_email, password=user_password)
-            chairman_data=Chairman.objects.get(userid=user_data.id)
-            print("=========>>>",user_data,chairman_data)
+            # if the user input is correct get the user data as an object
+            context=data(user_email,user_password)
+            request.session['email']=context['user'].email
             
-            request.session['email']=user_data.email
-            
-            return render(request, 'myapp/index.html')
+            print("========== render index")
+            return render(request, 'myapp/index.html',context)
          
       except Exception as e:
          print("===========>>> Error =",e)
@@ -54,3 +57,27 @@ def login(request):
          
          
       return render(request, "myapp/login.html", {'msg':msg})
+   
+def logout(request):
+   if "email" in request.session:
+      del request.session['email']
+   
+   return render(request, "myapp/login.html")
+
+# function for fetching user data
+def data(f_email,f_password=None):
+   user_data=User.objects.get(email=f_email)
+   
+   if f_password:
+      user_data=User.objects.get(email=f_email, password=f_password)
+      
+   chairman_data=Chairman.objects.get(userid=user_data.id)
+   
+   print("==============>>>",user_data,chairman_data)
+   
+   context={
+            "user":user_data,
+            "chairman":chairman_data,
+         }
+   
+   return context
