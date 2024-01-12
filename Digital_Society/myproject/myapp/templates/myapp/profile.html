@@ -71,7 +71,7 @@
                             </ul>
                         </div>
                         <div class="tab-pane body" id="Account">
-                            <form method="post" action="{% url 'new_pass' %}">
+                            <form method="post" action="{% url 'profile' %}">
                                 {% csrf_token %}
                                 <div class="form-group">
                                     <input type="email" class="form-control" placeholder="Email" value={{user.email}}

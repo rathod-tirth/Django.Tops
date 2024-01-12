@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponseRedirect
+from django.urls import reverse
 from .models import *
 
 # Create your views here.
@@ -46,6 +47,7 @@ def login(request):
       return render(request, "myapp/login.html", {'msg':msg})
    
 def logout(request):
+   print("==============>>> logout")
    if "email" in request.session:
       del request.session['email']
    
@@ -70,22 +72,32 @@ def profile(request):
    context=None
    if 'email' in request.session:
       context=data(request.session['email'])
+      
+      if request.POST.get("c_password")!="" and request.POST.get("c_password")!=None:
+         change_pass(request)
+   else:
+      return HttpResponseRedirect(reverse('login'))
    return render(request, 'myapp/profile.html', context)
 
-def new_pass(request):
-   if "email" in request.session:
-        user = User.objects.get(email = request.session['email'])
-        
-        currentpassword = request.POST.get('c_password')
-        newpassword = request.POST.get('newpassword')
-        if user.password == currentpassword:
-            user.password = newpassword
-            user.save() # update 
-        
-            del request.session['email']
-            s_msg = "Password Changed Successfully"
-            return render(request,"myapp/login.html",{'s_msg':s_msg})
-        else:
-            msg = "Invalid current password"
-            del request.session['email']
-            return render(request,"myapp/login.html",{'msg':msg})
+def change_pass(request):
+   c_password=request.POST.get("c_password")
+   n_password=request.POST.get("n_password")
+   print("===============>>> ",c_password,n_password)
+   
+   user=User.objects.get(email=request.session['email'])
+   print("=========>>>> passsword :",user.password)
+   
+   if n_password!="" and n_password!=None:
+      print("================>>>> Password checking")
+      if user.password==c_password:
+         user.password=n_password
+         user.save()
+         
+         msg="Password Updated Successfully"
+         return render(request, 'myapp/profile.html', {'msg':msg})
+      else:
+         print("================>>>> logging out")
+         del request.session['email']
+         return render(request, "myapp/login.html")
+      
+   return HttpResponseRedirect(reverse('profile'))
