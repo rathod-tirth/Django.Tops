@@ -10,26 +10,6 @@ def home(request):
    
    return render(request, "myapp/login.html")
 
-# def login(request):
-#    if request.POST:
-#       try:
-#          user_email=request.POST['email']
-#          user_password=request.POST['password']
-#          print("=========>>>",user_email,user_password)
-         
-#          user_data=User.objects.get(email=user_email, password=user_password)
-#          print("=========>>>",user_data)
-         
-#          return render(request, "myapp/login.html")
-#       except Exception as e:
-#          print("===========>>> Error =",e)
-#          msg="Invalid Input Pls Enter Again"
-#          return render(request, "myapp/login.html", {'msg':msg})
-         
-#    else:
-#       print("=========>>> Login")
-#       return render(request, "myapp/login.html")
-
 def login(request):
    if 'email' in request.session:
       context=data(request.session['email'])   
@@ -91,3 +71,21 @@ def profile(request):
    if 'email' in request.session:
       context=data(request.session['email'])
    return render(request, 'myapp/profile.html', context)
+
+def new_pass(request):
+   if "email" in request.session:
+        user = User.objects.get(email = request.session['email'])
+        
+        currentpassword = request.POST.get('c_password')
+        newpassword = request.POST.get('newpassword')
+        if user.password == currentpassword:
+            user.password = newpassword
+            user.save() # update 
+        
+            del request.session['email']
+            s_msg = "Password Changed Successfully"
+            return render(request,"myapp/login.html",{'s_msg':s_msg})
+        else:
+            msg = "Invalid current password"
+            del request.session['email']
+            return render(request,"myapp/login.html",{'msg':msg})
