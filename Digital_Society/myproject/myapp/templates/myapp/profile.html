@@ -72,7 +72,7 @@
                     <div class="tab-content">
 
                         <div class="tab-pane body active" id="Account">
-                            <form method="post" action="{% url 'change_pass' %}">
+                            <form method="post" action="{% url 'update_pass' %}">
                                 {% csrf_token %}
                                 <div class="form-group">
                                     <input type="email" class="form-control" placeholder="Email" value={{user.email}}
@@ -89,7 +89,8 @@
                                 <input type="submit" class="btn btn-info btn-round" value="Save Changes" />
                             </form>
                             <hr>
-                            <form action="" method="post">
+                            <form action="{% url "update_profile" %}" method="post" enctype="multipart/form-data" >
+                                {% csrf_token %}
                                 <div class="row clearfix">
                                     <div class="col-lg-4 col-md-12">
                                         <div class="form-group">
@@ -112,7 +113,7 @@
                                     <div class="col-lg-4 col-md-12">
                                         <div class="form-group">
                                             <input type="text" class="form-control" placeholder="Block No"
-                                                name="bloackno" value="{{chairman.blockno}}">
+                                                name="blockno" value="{{chairman.blockno}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12">
@@ -123,8 +124,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group m-b-10">
-                                            <input type="file" class="form-control" placeholder="Profile Picture"
-                                                name="pic">
+                                            <input type="file" class="form-control" name="pic">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
