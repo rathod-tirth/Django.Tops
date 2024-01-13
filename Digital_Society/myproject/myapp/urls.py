@@ -25,7 +25,8 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name="logout"),
     path('profile/', views.profile, name="profile"),
-    path('change_pass/', views.change_pass, name="change_pass"),
+    path('update_pass/', views.update_pass, name="update_pass"),
+    path('update_profile/', views.update_profile, name="update_profile"),
 ]
 
 if settings.DEBUG:
