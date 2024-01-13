@@ -109,7 +109,22 @@ def change_pass(request):
          return render(request, 'myapp/login.html', {'msg':msg})
    
    return redirect(reverse('profile'))
-         
+
+def change_details(request):
+   if 'email' in request.session:
+      user=User.objects.get(email=request.session['email'])
+      chairman=Chairman.objects.get(userid=user.id)
+      print("================>>>",user, chairman)
+      
+      # updating the user details
+      if request.POST:
+         chairman.firstname=request.POST.get('firstname') or chairman.firstname
+         chairman.lastname=request.POST.get('lastname')  or chairman.lastname
+         chairman.contact=request.POST.get('contact') or chairman.contact
+         chairman.blockno=request.POST.get('blockno') or chairman.blockno
+         chairman.houseno=request.POST.get('houseno') or chairman.houseno
+         if 'pic' in request.FILES:
+            chairman.pic=request.FILES.get("pic")
+         chairman.save()
    
-   
-   
+   return redirect(reverse('profile'))
