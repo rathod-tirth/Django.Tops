@@ -72,49 +72,44 @@ def profile(request):
    # to prevent non-logged in access to the profile
    if 'email' in request.session:
       context=data(request.session['email'])
-      
-      # getting the current and new password
-      c_password=request.POST.get("c_password")
-      n_password=request.POST.get("n_password")
-      print("===============>>> ",c_password,n_password)
-      
-      # calling the change_pass function only when the password field are filled
-      if c_password != None and c_password!="" and n_password != None and n_password!="":
-         # the function returns a tuple msg and boolean vaule
-         msg,result=change_pass(request,c_password,n_password)
-         
-         # based on boolean msg and page is rendered
-         if result:
-            context['msg']=msg
-            return render(request, 'myapp/profile.html', context)
-         else:
-            # for safety reasons loggin out if the password is incorrect
-            del request.session['email']
-            return render(request, 'myapp/login.html', {'msg':msg})
-         
       return render(request, 'myapp/profile.html', context)
    else:
       return redirect('login')
 
 # function for changing the password
-def change_pass(request,c_password,n_password):
-   # User table / user object to access all the details of that particular user
-   user=User.objects.get(email=request.session['email'])
-   print("=========>>>> Password :",user.password)
+def change_pass(request):
+   # getting the current and new password
+   c_password=request.POST.get("c_password")
+   n_password=request.POST.get("n_password")
+   print("===============>>> ",c_password,n_password)
+      
+   # checking if the values are empty or not
+   if c_password != None and c_password!="" and n_password != None and n_password!="":
+      
+      # User table / user object to access all the details of that particular user
+      user=User.objects.get(email=request.session['email'])
+      print("=========>>>> Password :",user.password)
+      
+      # password checking
+      print("================>>>> Password checking")
+      if user.password == c_password:
+         # if correct then passord changed to new password
+         user.password=n_password
+         user.save()
+         
+         print("================>>>> Password Right")
+         w_msg="Password Updated Successfully"
+         # making user re-loggin with new password 
+         del request.session['email']
+         return render(request, 'myapp/login.html', {'w_msg':w_msg})
+      else:
+         # if incorrect then loggin-out user for safeaty reasons
+         print("================>>>> Password Wrong")
+         msg="Invalid Current Password"
+         return render(request, 'myapp/login.html', {'msg':msg})
    
-   # password checking
-   print("================>>>> Password checking")
-   if user.password == c_password:
-      # new password if correct
-      user.password=n_password
-      user.save()
-      # alert for user
-      print("================>>>> Password Right")
-      msg="Password Updated Successfully"
-      # returning msg and True for correct
-      return msg,True
-   else:
-      # returning msg and False for incorrect
-      print("================>>>> Password Wrong")
-      msg="Invalid Current Password"
-      return msg,False
+   return redirect(reverse('profile'))
+         
+   
+   
+   
