@@ -76,8 +76,7 @@ def profile(request):
    else:
       return redirect('login')
 
-# function for changing the password
-def change_pass(request):
+def update_pass(request):
    # getting the current and new password
    c_password=request.POST.get("c_password")
    n_password=request.POST.get("n_password")
@@ -110,7 +109,7 @@ def change_pass(request):
    
    return redirect(reverse('profile'))
 
-def change_details(request):
+def update_profile(request):
    if 'email' in request.session:
       user=User.objects.get(email=request.session['email'])
       chairman=Chairman.objects.get(userid=user.id)
