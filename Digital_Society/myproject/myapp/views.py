@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse
-from django.contrib import messages
 from .models import *
 
 # Create your views here.
@@ -14,14 +13,12 @@ def home(request):
    return render(request, "myapp/login.html")
 
 def login(request):
-   # already logged-in
+   # if the user is already logged-in
    if 'email' in request.session:
       context=data(request.session['email'])   
       return render(request, 'myapp/index.html',context)
    else:
-      # request.GET: gets the query from the url
-      # Second parameter as None so if there is no 'msg' the default value will be None
-      msg=request.GET.get('msg',None) # this statement is used for change_pass function also can be used by other views
+      msg=None
       try:
          # getting user input from html
          print("=========>>> Login")
@@ -47,17 +44,10 @@ def login(request):
    
 def logout(request):
    print("==============>>> logout")
-   # request.GET: gets the query from the url
-   # Second parameter as None so if there is no 'msg' the default value will be None
-   msg=request.GET.get('msg',None)
-   
    if "email" in request.session:
       # deleting the session to notifi that the user is logged out
       del request.session['email']
-   
-   # sending any messages through url
-   url=reverse('login')+f"?msg={msg}"
-   return redirect(url)
+   return redirect(reverse('login'))
 
 # function for fetching user data
 def data(f_email,f_password=None):
@@ -98,7 +88,7 @@ def profile(request):
             context['msg']=msg
             return render(request, 'myapp/profile.html', context)
          else:
-            # for safety resons loggin out if the password is incorrect
+            # for safety reasons loggin out if the password is incorrect
             del request.session['email']
             return render(request, 'myapp/login.html', {'msg':msg})
          
@@ -108,7 +98,7 @@ def profile(request):
 
 # function for changing the password
 def change_pass(request,c_password,n_password):
-   # User table/ user object to access all the details of that particular user
+   # User table / user object to access all the details of that particular user
    user=User.objects.get(email=request.session['email'])
    print("=========>>>> Password :",user.password)
    
