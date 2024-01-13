@@ -25,11 +25,6 @@
         </div>
     </div>
     <div class="container-fluid">
-        {% if msg %}
-            <div class="alert alert-success" role="alert">
-                {{msg}}
-            </div>
-        {% endif %}
         <div class="row clearfix profile-page">
             <div class="col-lg-4 col-md-12">
                 <div class="card profile-header">
@@ -42,16 +37,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-8 col-md-12">
                 <div class="card">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#about">About</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Account">Account</a></li>
-                    </ul>
-                    <div class="tab-content">
+                    <div class="body">
                         <div class="tab-pane body active" id="about">
+                            <h6>About</h6>
+                            <br>
                             <ul class="list-unstyled">
                                 <li>
                                     <p><strong>First Name :</strong> {{chairman.firstname}}</p>
@@ -63,15 +53,26 @@
                                     <p><strong>Contact :</strong> {{chairman.contact}}</p>
                                 </li>
                                 <li>
-                                    <p><strong>HOuse No :</strong> {{chairman.houseno}} | {{chairman.blockno}}</p>
+                                    <p><strong>House No :</strong> {{chairman.blockno}} | {{chairman.houseno}}</p>
                                 </li>
                                 <li>
                                     <p><strong>Role :</strong> {{user.role}}</p>
                                 </li>
                             </ul>
                         </div>
-                        <div class="tab-pane body" id="Account">
-                            <form method="post" action="{% url 'profile' %}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="card">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Account">Account</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+
+                        <div class="tab-pane body active" id="Account">
+                            <form method="post" action="{% url 'change_pass' %}">
                                 {% csrf_token %}
                                 <div class="form-group">
                                     <input type="email" class="form-control" placeholder="Email" value={{user.email}}
@@ -88,52 +89,49 @@
                                 <input type="submit" class="btn btn-info btn-round" value="Save Changes" />
                             </form>
                             <hr>
-                            <div class="row clearfix">
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="First Name">
+                            <form action="" method="post">
+                                <div class="row clearfix">
+                                    <div class="col-lg-4 col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="First Name"
+                                                name="firstname" value="{{chairman.firstname}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Last Name"
+                                                name="lastname" value="{{chairman.lastname}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-12">
+                                        <div class="form-group">
+                                            <input type="number" class="form-control" placeholder="Contact"
+                                                name="contact" value="{{chairman.contact}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Block No"
+                                                name="bloackno" value="{{chairman.blockno}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="House No"
+                                                name="houseno" value="{{chairman.houseno}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group m-b-10">
+                                            <input type="file" class="form-control" placeholder="Profile Picture"
+                                                name="pic">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="submit" class="btn btn-info btn-round" value="Save Changes" />
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Last Name">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="City">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="E-mail">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Country">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group m-b-10">
-                                        <textarea rows="4" class="form-control no-resize"
-                                            placeholder="Address Line 1"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="checkbox">
-                                        <input id="procheck2" type="checkbox">
-                                        <label for="procheck2">New task notifications</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="procheck3" type="checkbox">
-                                        <label for="procheck3">New friend request notifications</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <button class="btn btn-primary btn-round">Save Changes</button>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
