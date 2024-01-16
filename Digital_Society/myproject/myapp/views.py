@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse
 from .models import *
+import random
 
 # Create your views here.
 
@@ -127,3 +128,33 @@ def update_profile(request):
          chairman.save()
    
    return redirect(reverse('profile'))
+
+def addMember(request):
+   if 'email' in request.session:
+      context=data(request.session['email'])
+      
+      if request.POST:
+         # --------- password -----------
+         email=request.POST.get('email')
+         contact=request.POST.get('contact')
+         li=["fds32","1as3df","98dsf6","asdf132","l4y6h3","j45gf","k4hg65"]
+         password=random.choice(li)+email[3:8]+contact[5:9]
+         print("==========>>>> Password",password)
+         # ------------------------------
+         
+         user=User.objects.create(email=email, password=password, role="Member")
+         print("===========>>> User",user)
+         if user:
+            member=Member.objects.create(userid=user,
+                                         firstname=request.POST.get('firstname'),
+                                         lastname=request.POST.get('lastname'),
+                                         contact=request.POST.get('contact'),
+                                         blockno=request.POST.get('blockno'),
+                                         houseno=request.POST.get('houseno'))
+            
+            print("===========>>> Member",member)
+            context['msg']="Member Added Successfully"
+      
+      return render(request, 'myapp/addMember.html', context)
+   else:
+      return redirect('login')
