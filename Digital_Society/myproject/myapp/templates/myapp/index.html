@@ -262,12 +262,10 @@
                                     class="zmdi zmdi-calendar-check"></i><span>Profile</span></a></li>
                         <li class="">
                             <a href="javascript:void(0);" class="menu-toggle"><i
-                                    class="zmdi zmdi-account-add"></i><span>Doctors</span></a>
+                                    class="zmdi zmdi-account-add"></i><span>Members</span></a>
                             <ul class="ml-menu">
-                                <li class=""><a href="..\doctor\doctors.html">All Doctors</a></li>
-                                <li class=""><a href="..\doctor\add-doctor.html">Add Doctor</a></li>
-                                <li class=""><a href="..\doctor\profile.html">Doctor Profile</a></li>
-                                <li class=""><a href="..\doctor\events.html">Doctor Schedule</a></li>
+                                <li class=""><a href="..\doctor\doctors.html">All Members</a></li>
+                                <li class=""><a href="{% url "addMember" %}">Add Members</a></li>
                             </ul>
                         </li>
                         <li class="">
@@ -390,27 +388,6 @@
                                 <li class=""><a href="..\ui\tabs.html">Tabs</a></li>
                                 <li class=""><a href="..\ui\waves.html">Waves</a></li>
                             </ul>
-                        </li>
-                        <li class="header">Extra</li>
-                        <li>
-                            <div class="progress-container progress-primary m-t-10">
-                                <span class="progress-badge">Traffic this Month</span>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="67"
-                                        aria-valuemin="0" aria-valuemax="100" style="width: 67%;">
-                                        <span class="progress-value">67%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress-container progress-info">
-                                <span class="progress-badge">Server Load</span>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="86"
-                                        aria-valuemin="0" aria-valuemax="100" style="width: 86%;">
-                                        <span class="progress-value">86%</span>
-                                    </div>
-                                </div>
-                            </div>
                         </li>
                     </ul>
                 </div>
@@ -836,7 +813,7 @@
                                 <a href="javascript:void(0)">
                                     <i class="zmdi zmdi-image l-parpl"></i>
                                     <div class="info">
-                                        <h4>MG_4145.jpg' %}</h4>
+                                        <h4>MG_4145.jpg</h4>
                                         <small>5.6MB</small>
                                     </div>
                                 </a>
@@ -845,7 +822,7 @@
                                 <a href="javascript:void(0)">
                                     <i class="zmdi zmdi-image l-parpl"></i>
                                     <div class="info">
-                                        <h4>MG_4100.jpg' %}</h4>
+                                        <h4>MG_4100.jpg</h4>
                                         <small>5MB</small>
                                     </div>
                                 </a>
@@ -945,7 +922,7 @@
             </div>
         </div>
     </div>
-    {% block section %}
+    {% block content %}
     <section class="content home">
         <div class="block-header">
             <div class="row">
@@ -1578,7 +1555,7 @@
             </div>
         </div>
     </section>
-    {% endblock section %}
+    {% endblock content %}
     <!-- Scripts -->
     <script src="{% static 'myapp\assets\bundles\libscripts.bundle.js' %}"></script>
     <script src="{% static 'myapp\assets\bundles\vendorscripts.bundle.js' %}"></script>
