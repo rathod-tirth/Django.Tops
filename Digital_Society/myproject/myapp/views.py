@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.urls import reverse
 from .models import *
 import random
+from .utils import *
 
 # Create your views here.
 
@@ -153,7 +154,12 @@ def addMember(request):
                                          houseno=request.POST.get('houseno'))
             
             print("===========>>> Member",member)
+            print("===========>>> Firstname",member.firstname)
             context['msg']="Member Added Successfully"
+            
+            if member:
+               print("=============>>> Sending Mail")
+               sendmail("Digital Society One Time Password","mailtemplate",email,{'email':email,'password':password,'firstname':member.firstname})
       
       return render(request, 'myapp/addMember.html', context)
    else:
