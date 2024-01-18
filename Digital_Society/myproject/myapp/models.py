@@ -32,6 +32,10 @@ class Member(models.Model):
    blockno = models.CharField(max_length=3)
    houseno = models.CharField(max_length=4)
    pic=models.FileField(upload_to='upload', default='default.png')
-
+   occupation=models.CharField(max_length=30, null=True)
+   vehicleno=models.CharField(max_length=30, null=True)
+   familyno=models.CharField(max_length=3)
+   tenant=models.CharField(max_length=10)
+   
    def __str__(self):
        return f"{self.firstname} | {self.blockno}/{self.houseno}"
