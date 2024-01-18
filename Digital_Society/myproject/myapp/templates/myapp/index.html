@@ -22,6 +22,16 @@
     <!-- Custom Css -->
     <link rel="stylesheet" href="{% static 'myapp\assets\css\main.css' %}">
     <link rel="stylesheet" href="{% static 'myapp\assets\css\color_skins.css' %}">
+    <style>
+        .dropdown-toggle{
+            display: none !important;
+        }
+        .bootstrap-select{
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+    </style>
 </head>
 
 <body class="theme-cyan">
@@ -264,7 +274,7 @@
                             <a href="javascript:void(0);" class="menu-toggle"><i
                                     class="zmdi zmdi-account-add"></i><span>Members</span></a>
                             <ul class="ml-menu">
-                                <li class=""><a href="..\doctor\doctors.html">All Members</a></li>
+                                <li class=""><a href="{% url "allMember" %}">All Members</a></li>
                                 <li class=""><a href="{% url "addMember" %}">Add Members</a></li>
                             </ul>
                         </li>
