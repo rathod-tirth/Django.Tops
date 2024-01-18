@@ -70,7 +70,6 @@ def data(f_email,f_password=None):
    return context
 
 def profile(request):
-   context=None
    # to prevent non-logged in access to the profile
    if 'email' in request.session:
       context=data(request.session['email'])
@@ -151,7 +150,12 @@ def addMember(request):
                                          lastname=request.POST.get('lastname'),
                                          contact=request.POST.get('contact'),
                                          blockno=request.POST.get('blockno'),
-                                         houseno=request.POST.get('houseno'))
+                                         houseno=request.POST.get('houseno'),
+                                         occupation=request.POST.get('occupation'),
+                                         vehicleno=request.POST.get('vehicleno'),
+                                         tenant=request.POST.get('tenant'),
+                                         familyno=request.POST.get('familyno'),
+                                         )
             
             print("===========>>> Member",member)
             print("===========>>> Firstname",member.firstname)
@@ -162,5 +166,15 @@ def addMember(request):
                sendmail("Digital Society One Time Password","mailtemplate",email,{'email':email,'password':password,'firstname':member.firstname})
       
       return render(request, 'myapp/addMember.html', context)
+   else:
+      return redirect('login')
+   
+def allMember(request):
+   if 'email' in request.session:
+      context=data(request.session['email'])
+      mall=Member.objects.all()
+      context['mall']=mall
+      
+      return render(request, 'myapp/allMember.html',context)
    else:
       return redirect('login')
