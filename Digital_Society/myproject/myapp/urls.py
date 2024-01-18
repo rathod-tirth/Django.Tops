@@ -28,6 +28,7 @@ urlpatterns = [
     path('update_pass/', views.update_pass, name="update_pass"),
     path('update_profile/', views.update_profile, name="update_profile"),
     path('addMember/', views.addMember, name="addMember"),
+    path('allMember/', views.allMember, name="allMember"),
 ]
 
 if settings.DEBUG:
