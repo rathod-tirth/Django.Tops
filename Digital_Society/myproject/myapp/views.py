@@ -123,8 +123,7 @@ def update_profile(request):
          chairman.contact=request.POST.get('contact') or chairman.contact
          chairman.blockno=request.POST.get('blockno') or chairman.blockno
          chairman.houseno=request.POST.get('houseno') or chairman.houseno
-         if 'pic' in request.FILES:
-            chairman.pic=request.FILES.get("pic")
+         chairman.pic=request.FILES.get("pic") or chairman.pic
          chairman.save()
    
    return redirect(reverse('profile'))
@@ -176,5 +175,64 @@ def allMember(request):
       context['mall']=mall
       
       return render(request, 'myapp/allMember.html',context)
+   else:
+      return redirect('login')
+   
+def editMember(request,pk):
+   if 'email' in request.session:
+      context=data(request.session['email'])
+      member=Member.objects.get(id=pk)
+      context['member']=member
+      
+      if request.POST:
+         member.firstname=request.POST.get('firstname') or member.firstname
+         member.lastname=request.POST.get('lastname')  or member.lastname
+         member.contact=request.POST.get('contact') or member.contact
+         member.blockno=request.POST.get('blockno') or member.blockno
+         member.houseno=request.POST.get('houseno') or member.houseno
+         member.occupation=request.POST.get('occupation') or member.occupation
+         member.tenant=request.POST.get('tenant') or member.tenant
+         member.familyno=request.POST.get('familyno') or member.familyno
+         member.vehicleno=request.POST.get('vehicleno') or member.vehicleno
+         member.pic=request.FILES.get("pic") or member.pic
+         member.save()
+         return redirect('allMember')
+         
+      return render(request, 'myapp/editMember.html',context)
+   else:
+      return redirect('login')
+   
+def deleteMember(request,pk):
+   if 'email' in request.session:
+      member=Member.objects.get(id=pk)
+      member.delete()
+      
+      return redirect('allMember')
+   else:
+      return redirect('login')
+   
+def addNotice(request):
+   if 'email' in request.session:
+      context=data(request.session['email'])
+      
+      if request.POST:
+         notice=Notice.objects.create(title=request.POST.get('title'),
+                                      description=request.POST.get('description'),
+                                      pic=request.POST.get('pic'),
+                                      video=request.POST.get('video'),)
+         print("===========>>> Notice",notice.title)
+         context['msg']="Notice Added Successfully"
+
+      return render(request, 'myapp/addNotice.html',context)
+   else:
+      return redirect('login')
+   
+def allNotice(request):
+   if 'email' in request.session:
+      context=data(request.session['email'])
+      notice=Notice.objects.all()
+      context['notice']=notice
+
+      return render(request, 'myapp/allNotice.html',context)
    else:
       return redirect('login')
