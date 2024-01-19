@@ -29,6 +29,10 @@ urlpatterns = [
     path('update_profile/', views.update_profile, name="update_profile"),
     path('addMember/', views.addMember, name="addMember"),
     path('allMember/', views.allMember, name="allMember"),
+    path('editMember/<int:pk>', views.editMember, name="editMember"),
+    path('deleteMember/<int:pk>', views.deleteMember, name="deleteMember"),
+    path('addNotice/', views.addNotice, name="addNotice"),
+    path('allNotice/', views.allNotice, name="allNotice"),
 ]
 
 if settings.DEBUG:
