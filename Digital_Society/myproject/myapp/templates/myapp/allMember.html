@@ -41,12 +41,12 @@
                                         </div>
                                         <div class="detail">
                                             <h4 class="m-b-0">{{i.firstname}}</h4>
-                                            <p class="text-muted"></p>
-                                            <ul class="social-links list-inline m-t-20">
-                                                <li><a title="edit" href="#"><i class="zmdi zmdi-edit"></i></a></li>
-                                                <li><a title="delete" href="#"><i class="zmdi zmdi-delete"></i></a></li>
-                                            </ul>
+                                            <p class="text-muted">{{i.occupation}}</p>
                                             <p class="text-muted">{{i.blockno}} | {{i.houseno}}</p>
+                                            <ul class="social-links list-inline m-t-20">
+                                                <li><a title="edit" href="{% url "editMember" pk=i.id %}"><i class="zmdi zmdi-edit"></i></a></li>
+                                                <li><a title="delete" href="{% url "deleteMember" pk=i.id %}"><i class="zmdi zmdi-delete"></i></a></li>
+                                            </ul>
                                             <a href="profile.html" class="btn btn-default btn-round btn-simple">View
                                                 Profile</a>
                                         </div>
