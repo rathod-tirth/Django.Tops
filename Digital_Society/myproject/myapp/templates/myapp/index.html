@@ -269,7 +269,7 @@
                         <li class="active open"><a href="{% url "home" %}"><i
                                     class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
                         <li class=""><a href="{% url "profile" %}"><i
-                                    class="zmdi zmdi-calendar-check"></i><span>Profile</span></a></li>
+                                    class="zmdi zmdi-account-o"></i><span>Profile</span></a></li>
                         <li class="">
                             <a href="javascript:void(0);" class="menu-toggle"><i
                                     class="zmdi zmdi-account-add"></i><span>Members</span></a>
@@ -280,12 +280,10 @@
                         </li>
                         <li class="">
                             <a href="javascript:void(0);" class="menu-toggle"><i
-                                    class="zmdi zmdi-account-o"></i><span>Patients</span></a>
+                                    class="zmdi zmdi-calendar-check"></i><span>Notice</span></a>
                             <ul class="ml-menu">
-                                <li class=""><a href="..\patients\all-patients.html">All Patients</a></li>
-                                <li class=""><a href="..\patients\add-patients.html">Add Patient</a></li>
-                                <li class=""><a href="..\patients\patients-profile.html">Patient Profile</a></li>
-                                <li class=""><a href="..\patients\invoice.html">Invoice</a></li>
+                                <li class=""><a href="{% url "allNotice" %}">All Notice</a></li>
+                                <li class=""><a href="{% url "addNotice" %}">Add Notice</a></li>
                             </ul>
                         </li>
                         <li class="">
