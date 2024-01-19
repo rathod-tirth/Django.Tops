@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(User)
 admin.site.register(Chairman)
 admin.site.register(Member)
+admin.site.register(Notice)
