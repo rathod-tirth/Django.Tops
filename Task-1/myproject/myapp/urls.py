@@ -19,5 +19,7 @@ from myapp import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('userForm/', views.userForm, name='userForm')
+    path('userForm/', views.userForm, name='userForm'),
+    path('editUser/<int:k>', views.editUser, name='editUser'),
+    path('deleteUser/<int:k>', views.deleteUser, name='deleteUser'),
 ]
