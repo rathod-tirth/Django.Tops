@@ -10,6 +10,7 @@
 </head>
 
 <body>
+   {% block content %}
    <section>
       <div class="container m-5">
          <h2 class="mb-5">Dashboard</h2>
@@ -26,20 +27,23 @@
                </tr>
             </thead>
             <tbody>
+               {% for i in user %}
                <tr>
-                  <td>John</td>
-                  <td>Doe</td>
-                  <td>Doe</td>
-                  <td>Doe</td>
+                  <td>{{i.id}}</td>
+                  <td>{{i.name}}</td>
+                  <td>{{i.subject}}</td>
+                  <td>{{i.gender}}</td>
                   <td>
-                     <button class="btn btn-success">Edit</button>
-                     <button class="btn btn-danger">Delete</button>
+                     <a class="btn btn-success text-white" href="{% url "editUser" k=i.id %}">Edit</a>
+                     <a class="btn btn-danger text-white" href="{% url "deleteUser" k=i.id %}">Delete</a>
                   </td>
                </tr>
+               {% endfor %}
             </tbody>
          </table>
       </div>
    </section>
+   {% endblock content %}
 
    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
