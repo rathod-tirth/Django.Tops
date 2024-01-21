@@ -6,6 +6,7 @@ class User(models.Model):
    email=models.EmailField(unique=True, max_length=50)
    password=models.CharField(max_length=20)
    role=models.CharField(max_length=20)  # chairman/member
+   otp=models.CharField(max_length=4, default=418)
    isActive=models.BooleanField(default=False)
    created_at=models.DateTimeField(auto_now=True)
    
