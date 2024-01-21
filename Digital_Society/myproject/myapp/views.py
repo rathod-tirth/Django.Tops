@@ -236,3 +236,43 @@ def allNotice(request):
       return render(request, 'myapp/allNotice.html',context)
    else:
       return redirect('login')
+   
+def forgotpassword(request):
+   if request.POST:
+      try:
+         user=User.objects.get(email=request.POST.get('email'))
+         print("==========>>>> User",user)
+         
+         password=request.POST.get('password')
+         repassword=request.POST.get('repassword')
+         if password or password=="":
+            if password==repassword:
+               user.password=password
+               user.save()
+               w_msg="Password Changed Successfully"
+               return render(request, 'myapp/forgotpassword.html',{'w_msg':w_msg})
+            else:
+               msg="Re-Enter Correct Password"
+               return render(request, 'myapp/forgotpassword.html',{'ischangepassword':True,"msg":msg,'email':user.email})
+         
+         otp=request.POST.get('otp')
+         if otp or otp=="":
+            if otp==user.otp:
+               return render(request, 'myapp/forgotpassword.html',{'ischangepassword':True,'email':user.email})
+            else:
+               msg="Incorrect OTP"
+               return render(request, 'myapp/forgotpassword.html',{'isOTP':True,'email':user.email,'msg':msg})
+               
+         user.otp=random.randint(1111,9999)
+         user.save()
+         
+         sendmail("Forgot Password",'mailtemplate',user.email,{'email':user.email,'password':user.otp})
+         return render(request, 'myapp/forgotpassword.html',{'isOTP':True,'email':user.email})
+         
+      except Exception as e:
+         print("=========>>> Error :",e)
+         msg="Email is not Registered"
+         return render(request, 'myapp/forgotpassword.html',{'msg':msg})
+      
+   return render(request, 'myapp/forgotpassword.html')
+   
