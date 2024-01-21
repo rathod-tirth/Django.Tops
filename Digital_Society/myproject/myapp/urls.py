@@ -33,6 +33,7 @@ urlpatterns = [
     path('deleteMember/<int:pk>', views.deleteMember, name="deleteMember"),
     path('addNotice/', views.addNotice, name="addNotice"),
     path('allNotice/', views.allNotice, name="allNotice"),
+    path('forgotpassword/', views.forgotpassword, name="forgotpassword"),
 ]
 
 if settings.DEBUG:
