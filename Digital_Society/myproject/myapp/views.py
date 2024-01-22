@@ -240,39 +240,74 @@ def allNotice(request):
 def forgotpassword(request):
    if request.POST:
       try:
+         # getting user data
          user=User.objects.get(email=request.POST.get('email'))
          print("==========>>>> User",user)
          
-         password=request.POST.get('password')
-         repassword=request.POST.get('repassword')
-         if password or password=="":
-            if password==repassword:
-               user.password=password
-               user.save()
-               w_msg="Password Changed Successfully"
-               return render(request, 'myapp/forgotpassword.html',{'w_msg':w_msg})
-            else:
-               msg="Re-Enter Correct Password"
-               return render(request, 'myapp/forgotpassword.html',{'ischangepassword':True,"msg":msg,'email':user.email})
-         
+         # ---------- step-2: Verify the otp -----------
          otp=request.POST.get('otp')
-         if otp or otp=="":
-            if otp==user.otp:
-               return render(request, 'myapp/forgotpassword.html',{'ischangepassword':True,'email':user.email})
+         print("==========>>>> OTP",otp)
+         if otp is not None:
+            # on correct OTP send to changepassword html
+            if otp==user.otp and otp!="":
+               return render(request, 'myapp/changepassword.html',{'email':user.email})
             else:
+            # on incorrect OTP
                msg="Incorrect OTP"
                return render(request, 'myapp/forgotpassword.html',{'isOTP':True,'email':user.email,'msg':msg})
-               
+         # ----------------------------------------------
+         
+         # --------- step-1: otp ---------------   
+         # generating otp
          user.otp=random.randint(1111,9999)
          user.save()
          
+         # sending otp to the user through the mail
          sendmail("Forgot Password",'mailtemplate',user.email,{'email':user.email,'password':user.otp})
+         # on valid email the OTP field will be unlocked
          return render(request, 'myapp/forgotpassword.html',{'isOTP':True,'email':user.email})
+         # -------------------------------------
          
       except Exception as e:
+         # if email is invalid
          print("=========>>> Error :",e)
          msg="Email is not Registered"
          return render(request, 'myapp/forgotpassword.html',{'msg':msg})
       
    return render(request, 'myapp/forgotpassword.html')
-   
+
+# Note: user.email is given on almost every render to keep the view connected
+
+def changepassword(request):
+   if request.POST:
+      # user and password
+      user=User.objects.get(email=request.POST.get('email'))
+      password=request.POST.get('password')
+      repassword=request.POST.get('repassword')
+      
+      # checking passwords for any falsy values
+      if password is not None and password !="" and repassword is not None and repassword !="":
+         # if the password is equal to previous password
+         if user.password==password:
+            msg="Same as Previous Password"
+            return render(request, 'myapp/changepassword.html',{'email':user.email,'msg':msg})
+         # successfull outcome
+         elif password==repassword:
+            # saving the new password
+            user.password=password
+            user.save()
+            w_msg="Password Changed Successfully"
+            return render(request, 'myapp/login.html',{'w_msg':w_msg})
+         else:
+            # if the both passwords don't match
+            msg="Enter Matching Passwords"
+            return render(request, 'myapp/changepassword.html',{'email':user.email,'msg':msg})
+      else:
+         # if the fields are empty
+         msg="Please Fillup the Password fields Properly"
+         return render(request, 'myapp/changepassword.html',{'email':user.email,'msg':msg})
+
+   # the only request.POST getting on default is the email. which after the OTP is verified
+   # and without that the view will return login by default
+   # this prevents any malicious activites from changing the password without OTP verification 
+   return redirect('login')
