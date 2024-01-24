@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.urls import reverse
 from .models import *
 import random
@@ -31,6 +31,11 @@ def login(request):
          if(user_email != None and user_password != None):
             # if the user input is correct get the user data as an object
             context=data(user_email,user_password)
+            
+            if not context['user'].isActive:
+               print("========== first time login")
+               return render(request, 'myapp/firstTimeLogin.html',context)
+            
             # creating a session, so the app have an info that the user is logged-in or not
             request.session['email']=context['user'].email
             
@@ -54,20 +59,41 @@ def logout(request):
 # function for fetching user data
 def data(f_email,f_password=None):
    # getting all the user data
-   user_data=User.objects.get(email=f_email)
+   user=User.objects.get(email=f_email)
    if f_password:
-      user_data=User.objects.get(email=f_email, password=f_password)
+      user=User.objects.get(email=f_email, password=f_password)
       
-   chairman_data=Chairman.objects.get(userid=user_data.id)
-   print("==============>>>",user_data,chairman_data)
+   if user.role.casefold()=="chairman":
+      chairmanORmember=Chairman.objects.get(userid=user.id)
+   else:
+      chairmanORmember=Member.objects.get(userid=user.id)
    
+   print("==============>>>",user,chairmanORmember)
+      
    # creating a context for html
    context={
-            "user":user_data,
-            "chairman":chairman_data,
+            "user":user,
+            "chairmanORmember":chairmanORmember,
          }
    
    return context
+
+def firstTimeLogin(request):
+   if request.POST:
+      user=User.objects.get(email=request.POST.get('email'))
+      print("=========>>> Email :",user)
+            
+      password=request.POST.get('password')
+      if password is not None and password != "":
+         user.password=password
+         user.isActive=True
+         user.save()
+         w_msg="Password Changed Successfully"
+         return render(request, "myapp/login.html",{'w_msg':w_msg})
+      else:
+         msg="Pls Fillup The Fields"
+         return render(request, 'myapp/firstTimeLogin.html',{'msg':msg,"user":user})
+   return redirect('login')
 
 def profile(request):
    # to prevent non-logged in access to the profile
@@ -106,6 +132,7 @@ def update_pass(request):
          # if incorrect then loggin-out user for safeaty reasons
          print("================>>>> Password Wrong")
          msg="Invalid Current Password"
+         del request.session['email']
          return render(request, 'myapp/login.html', {'msg':msg})
    
    return redirect(reverse('profile'))
@@ -113,18 +140,28 @@ def update_pass(request):
 def update_profile(request):
    if 'email' in request.session:
       user=User.objects.get(email=request.session['email'])
-      chairman=Chairman.objects.get(userid=user.id)
-      print("================>>>",user, chairman)
+      
+      if user.role.casefold()=="chairman":
+         chairmanORmember=Chairman.objects.get(userid=user.id)
+      else:
+         chairmanORmember=Member.objects.get(userid=user.id)
+
+      print("==============>>>",user,chairmanORmember)
       
       # updating the user details
       if request.POST:
-         chairman.firstname=request.POST.get('firstname') or chairman.firstname
-         chairman.lastname=request.POST.get('lastname')  or chairman.lastname
-         chairman.contact=request.POST.get('contact') or chairman.contact
-         chairman.blockno=request.POST.get('blockno') or chairman.blockno
-         chairman.houseno=request.POST.get('houseno') or chairman.houseno
-         chairman.pic=request.FILES.get("pic") or chairman.pic
-         chairman.save()
+         chairmanORmember.firstname=request.POST.get('firstname') or chairmanORmember.firstname
+         chairmanORmember.lastname=request.POST.get('lastname')  or chairmanORmember.lastname
+         chairmanORmember.contact=request.POST.get('contact') or chairmanORmember.contact
+         chairmanORmember.blockno=request.POST.get('blockno') or chairmanORmember.blockno
+         chairmanORmember.houseno=request.POST.get('houseno') or chairmanORmember.houseno
+         chairmanORmember.pic=request.FILES.get("pic") or chairmanORmember.pic
+         if user.role.casefold()=="member":
+            chairmanORmember.occupation=request.POST.get('occupation') or chairmanORmember.occupation
+            chairmanORmember.vehicleno=request.POST.get('vehicleno') or chairmanORmember.vehicleno
+            chairmanORmember.familyno=request.POST.get('familyno') or chairmanORmember.familyno
+            chairmanORmember.tenant=request.POST.get('tenant') or chairmanORmember.tenant
+         chairmanORmember.save()
    
    return redirect(reverse('profile'))
 
