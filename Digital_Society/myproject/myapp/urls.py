@@ -35,6 +35,7 @@ urlpatterns = [
     path('allNotice/', views.allNotice, name="allNotice"),
     path('forgotpassword/', views.forgotpassword, name="forgotpassword"),
     path('changepassword/', views.changepassword, name="changepassword"),
+    path('firstTimeLogin/', views.firstTimeLogin, name="firstTimeLogin"),
 ]
 
 if settings.DEBUG:
