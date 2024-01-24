@@ -29,11 +29,11 @@
             <div class="col-lg-4 col-md-12">
                 <div class="card profile-header">
                     <div class="body text-center">
-                        <div class="profile-image"> <img src="{{chairman.pic.url}}" alt=""> </div>
+                        <div class="profile-image"> <img src="{{chairmanORmember.pic.url}}" alt=""> </div>
                         <div>
-                            <h4 class="m-b-0">{{chairman.firstname}}</h4>
+                            <h4 class="m-b-0">{{chairmanORmember.firstname}}</h4>
                             <span class="job_post">{{user.role}}</span>
-                            <p>{{chairman.blockno}} | {{chairman.houseno}}</p>
+                            <p>{{chairmanORmember.blockno}} | {{chairmanORmember.houseno}}</p>
                         </div>
                     </div>
                 </div>
@@ -44,20 +44,34 @@
                             <br>
                             <ul class="list-unstyled">
                                 <li>
-                                    <p><strong>First Name :</strong> {{chairman.firstname}}</p>
+                                    <p><strong>First Name :</strong> {{chairmanORmember.firstname}}</p>
                                 </li>
                                 <li>
-                                    <p><strong>Last Name :</strong> {{chairman.lastname}}</p>
+                                    <p><strong>Last Name :</strong> {{chairmanORmember.lastname}}</p>
                                 </li>
                                 <li>
-                                    <p><strong>Contact :</strong> {{chairman.contact}}</p>
+                                    <p><strong>Contact :</strong> {{chairmanORmember.contact}}</p>
                                 </li>
                                 <li>
-                                    <p><strong>House No :</strong> {{chairman.blockno}} | {{chairman.houseno}}</p>
+                                    <p><strong>House No :</strong> {{chairmanORmember.blockno}} | {{chairmanORmember.houseno}}</p>
                                 </li>
                                 <li>
                                     <p><strong>Role :</strong> {{user.role}}</p>
                                 </li>
+                                {% if user.role.casefold == "member" %}
+                                <li>
+                                    <p><strong>Occupation :</strong> {{chairmanORmember.occupation}}</p>
+                                </li>
+                                <li>
+                                    <p><strong>Vehicle No. :</strong> {{chairmanORmember.vehicleno}}</p>
+                                </li>
+                                <li>
+                                    <p><strong>Family No. :</strong> {{chairmanORmember.familyno}}</p>
+                                </li>
+                                <li>
+                                    <p><strong>Tenant :</strong> {{chairmanORmember.tenant}}</p>
+                                </li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -94,32 +108,37 @@
                                 <div class="row clearfix">
                                     <div class="col-lg-4 col-md-12">
                                         <div class="form-group">
+                                            <label for="firstname">Firstname</label>
                                             <input type="text" class="form-control" placeholder="First Name"
-                                                name="firstname" value="{{chairman.firstname}}">
+                                                name="firstname" value="{{chairmanORmember.firstname}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12">
                                         <div class="form-group">
+                                            <label for="lastname">Lastname</label>
                                             <input type="text" class="form-control" placeholder="Last Name"
-                                                name="lastname" value="{{chairman.lastname}}">
+                                                name="lastname" value="{{chairmanORmember.lastname}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12">
                                         <div class="form-group">
+                                            <label for="contact">Contact</label>
                                             <input type="number" class="form-control" placeholder="Contact"
-                                                name="contact" value="{{chairman.contact}}">
+                                                name="contact" value="{{chairmanORmember.contact}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12">
                                         <div class="form-group">
+                                            <label for="blockno">Block No.</label>
                                             <input type="text" class="form-control" placeholder="Block No"
-                                                name="blockno" value="{{chairman.blockno}}">
+                                                name="blockno" value="{{chairmanORmember.blockno}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12">
                                         <div class="form-group">
+                                            <label for="houseno">House No.</label>
                                             <input type="text" class="form-control" placeholder="House No"
-                                                name="houseno" value="{{chairman.houseno}}">
+                                                name="houseno" value="{{chairmanORmember.houseno}}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -128,6 +147,34 @@
                                             <input type="file" class="form-control" name="pic">
                                         </div>
                                     </div>
+                                    {% if user.role.casefold == "member" %}
+                                    <div class="col-sm-6 col-lg-6 col-md-12">
+                                        <div class="form-group">
+                                            <label for="occupation">Occupation</label>
+                                            <input type="text" class="form-control" placeholder="Occupation" name="occupation" value="{{chairmanORmember.occupation}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-lg-3 col-md-12">
+                                        <label for="tenant">Tenant</label>
+                                        <select class="form-control" style="font-size: 0.7rem;" name="tenant" value="{{chairmanORmember.tenant}}">
+                                            <option value="" selected disabled>- Tenant -</option>
+                                            <option value="Owner">Owner</option>
+                                            <option value="Rent">Rent</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3 col-lg-3 col-md-12">
+                                        <div class="form-group">
+                                            <label for="familyno">Family No.</label>
+                                            <input type="text" class="form-control" placeholder="No. of Family Member" name="familyno" value="{{chairmanORmember.familyno}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="vehicleno">Vechicle No.</label>
+                                            <input type="text" class="form-control" placeholder="Enter Vechicle No. ( use space for multiple no. )" name="vehicleno" value="{{chairmanORmember.vehicleno}}">
+                                        </div>
+                                    </div>
+                                    {% endif %}
                                     <div class="col-md-12">
                                         <input type="submit" class="btn btn-info btn-round" value="Save Changes" />
                                     </div>
