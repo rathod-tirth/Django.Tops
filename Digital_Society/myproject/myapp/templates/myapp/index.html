@@ -275,7 +275,9 @@
                                     class="zmdi zmdi-account-add"></i><span>Members</span></a>
                             <ul class="ml-menu">
                                 <li class=""><a href="{% url "allMember" %}">All Members</a></li>
+                                {% if user.role.casefold == "chairman" %}
                                 <li class=""><a href="{% url "addMember" %}">Add Members</a></li>
+                                {% endif %}
                             </ul>
                         </li>
                         <li class="">

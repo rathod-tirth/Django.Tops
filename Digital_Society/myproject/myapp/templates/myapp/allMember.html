@@ -43,10 +43,12 @@
                                             <h4 class="m-b-0">{{i.firstname}}</h4>
                                             <p class="text-muted">{{i.occupation}}</p>
                                             <p class="text-muted">{{i.blockno}} | {{i.houseno}}</p>
+                                            {% if user.role.casefold == "chairman" %}
                                             <ul class="social-links list-inline m-t-20">
                                                 <li><a title="Edit" class="btn btn-success text-white" href="{% url "editMember" pk=i.id %}"><i class="zmdi zmdi-edit"></i></a></li>
                                                 <li><a title="Delete" class="btn btn-danger text-white" href="{% url "deleteMember" pk=i.id %}"><i class="zmdi zmdi-delete"></i></a></li>
                                             </ul>
+                                            {% endif %}
                                             <a href="{% url "viewMember" k=i.id %}" class="btn btn-default btn-round">View
                                                 Profile</a>
                                         </div>
