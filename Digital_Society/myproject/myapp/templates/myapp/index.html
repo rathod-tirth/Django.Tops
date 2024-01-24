@@ -257,9 +257,9 @@
                         <li>
                             <div class="user-info">
                                 <div class="image"><a href="{% url 'profile' %}">
-                                    <img src="{{chairman.pic.url}}" alt="User" /></a></div>
+                                    <img src="{{chairmanORmember.pic.url}}" alt="User" /></a></div>
                                 <div class="detail">
-                                    <h4>{{chairman.firstname}}</h4>
+                                    <h4>{{chairmanORmember.firstname}}</h4>
                                     <small>{{user.role}}</small>
                                 </div>
                             </div>
@@ -406,9 +406,9 @@
                         <li>
                             <div class="user-info m-b-20 p-b-15">
                                 <div class="image"><a href="..\doctor\profile.html"><img
-                                            src="{{chairman.pic.url}}" alt="User"></a></div>
+                                            src="{{chairmanORmember.pic.url}}" alt="User"></a></div>
                                 <div class="detail">
-                                    <h4>{{chairman.firstname}}</h4>
+                                    <h4>{{chairmanORmember.firstname}}</h4>
                                     <small>{{user.role}}</small>
                                 </div>
                                 <div class="row">
@@ -422,13 +422,13 @@
                         </li>
                         <li>
                             <small class="text-muted">Location: </small>
-                            <p>{{chairman.blockno}} | {{chairman.houseno}}</p>
+                            <p>{{chairmanORmember.blockno}} | {{chairmanORmember.houseno}}</p>
                             <hr>
                             <small class="text-muted">Email address: </small>
                             <p>{{user.email}}</p>
                             <hr>
                             <small class="text-muted">Phone: </small>
-                            <p>{{chairman.contact}}</p>
+                            <p>{{chairmanORmember.contact}}</p>
                             <hr>
                         </li>
                     </ul>
