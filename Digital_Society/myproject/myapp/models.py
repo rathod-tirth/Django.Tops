@@ -44,8 +44,6 @@ class Member(models.Model):
 class Notice(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
-    pic = models.FileField(upload_to="upload",null=True,blank=True)
-    video = models.FileField(upload_to="video",verbose_name="noticeclip",blank=True,null=True)
     created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
