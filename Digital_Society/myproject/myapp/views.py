@@ -247,7 +247,17 @@ def deleteMember(request,pk):
       return redirect('allMember')
    else:
       return redirect('login')
-   
+
+def viewMember(request,k):
+   if 'email' in request.session:
+      context=data(request.session['email'])
+      member=Member.objects.get(id=k)
+      context['member']=member
+      
+      return render(request, 'myapp/viewMember.html', context)
+   else:
+      return redirect('login')
+ 
 def addNotice(request):
    if 'email' in request.session:
       context=data(request.session['email'])

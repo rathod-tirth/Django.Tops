@@ -31,6 +31,7 @@ urlpatterns = [
     path('allMember/', views.allMember, name="allMember"),
     path('editMember/<int:pk>', views.editMember, name="editMember"),
     path('deleteMember/<int:pk>', views.deleteMember, name="deleteMember"),
+    path('viewMember/<int:k>', views.viewMember, name="viewMember"),
     path('addNotice/', views.addNotice, name="addNotice"),
     path('allNotice/', views.allNotice, name="allNotice"),
     path('forgotpassword/', views.forgotpassword, name="forgotpassword"),
