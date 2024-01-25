@@ -285,7 +285,9 @@
                                     class="zmdi zmdi-calendar-check"></i><span>Notice</span></a>
                             <ul class="ml-menu">
                                 <li class=""><a href="{% url "allNotice" %}">All Notice</a></li>
+                                {% if user.role.casefold == "chairman" %}
                                 <li class=""><a href="{% url "addNotice" %}">Add Notice</a></li>
+                                {% endif %}
                             </ul>
                         </li>
                         <li class="">
