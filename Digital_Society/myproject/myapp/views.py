@@ -263,11 +263,12 @@ def addNotice(request):
       context=data(request.session['email'])
       
       if request.POST:
-         notice=Notice.objects.create(title=request.POST.get('title'),
-                                      description=request.POST.get('description'),
-                                      pic=request.POST.get('pic'),
-                                      video=request.POST.get('video'),)
-         print("===========>>> Notice",notice.title)
+         notice=Notice.objects.create(authority=request.POST.get('authority'),
+                                      notice_title=request.POST.get('notice_title'),
+                                      notice_text=request.POST.get('notice_text'),
+                                      name=request.POST.get('name'),
+                                      designation=request.POST.get('designation'),)
+         print("===========>>> Notice",notice.notice_title)
          context['msg']="Notice Added Successfully"
 
       return render(request, 'myapp/addNotice.html',context)
@@ -281,6 +282,16 @@ def allNotice(request):
       context['notice']=notice
 
       return render(request, 'myapp/allNotice.html',context)
+   else:
+      return redirect('login')
+   
+def viewNotice(request,k):
+   if 'email' in request.session:
+      context=data(request.session['email'])
+      notice=Notice.objects.get(id=k)
+      context['notice']=notice
+
+      return render(request, 'myapp/viewNotice.html',context)
    else:
       return redirect('login')
    
