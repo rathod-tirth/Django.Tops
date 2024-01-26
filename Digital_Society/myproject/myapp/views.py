@@ -1,10 +1,21 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.urls import reverse
-from .models import *
 import random
 from .utils import *
 
+# for api
+from .models import *
+from .serializers import StudentSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 # Create your views here.
+
+@api_view(['GET','POST'])
+
+def studentapi(request):
+   sdata=Student.objects.all()
+   serializer=StudentSerializer(sdata)
 
 # default url
 def home(request):
