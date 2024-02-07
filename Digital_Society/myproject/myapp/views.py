@@ -5,17 +5,17 @@ from .utils import *
 
 # for api
 from .models import *
-from .serializers import StudentSerializer
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+# from .serializers import StudentSerializer
+# from rest_framework.decorators import api_view
+# from rest_framework.response import Response
 
-# Create your views here.
+# # Create your views here.
 
-@api_view(['GET','POST'])
+# @api_view(['GET','POST'])
 
-def studentapi(request):
-   sdata=Student.objects.all()
-   serializer=StudentSerializer(sdata)
+# def studentapi(request):
+#    sdata=Student.objects.all()
+#    serializer=StudentSerializer(sdata)
 
 # default url
 def home(request):

@@ -1,0 +1,11 @@
+asgiref==3.7.2
+distlib==0.3.8
+Django==5.0.1
+djangorestframework==3.14.0
+filelock==3.13.1
+platformdirs==4.1.0
+PyMySQL==1.1.0
+pytz==2023.3.post1
+sqlparse==0.4.4
+tzdata==2023.4
+virtualenv==20.25.0
